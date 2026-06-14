@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenomeHub — Genomic reference data for everyone</title>
+<meta name="description" content="A peer-to-peer network for distributing and serving genomic reference assemblies at scale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <span class="brand">GENOMEHUB</span>
+  <span class="sep">│</span>
+  <span class="ver">v0.1.5</span>
+  <div style="flex:1"></div>
+  <div class="nav-links">
+    <a href="#network">Network</a>
+    <a href="#protocol">Protocol</a>
+    <a href="#install">Install</a>
+    <a href="#genomes" class="btn-cta">Browse Genomes <span>▶</span></a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-radial"></div>
+  <div class="hero-vfade"></div>
+  <div class="hero-seq" id="hero-seq"></div>
+
+  <div class="hero-text">
+    <div class="eyebrow">Open Protocol · Decentralized · Peer-to-Peer</div>
+    <h1>
+      Genomic reference<br>
+      <span class="accent">data for everyone</span><span class="caret">█</span>
+    </h1>
+    <p>A peer-to-peer network for distributing and serving genomic reference assemblies at scale. Run a node to seed data, serve peer requests, and keep reference data publicly accessible.</p>
+    <div class="hero-actions">
+      <a href="#install" class="btn btn-primary">[ Run a Node ]</a>
+      <a href="#protocol" class="btn btn-ghost">[ Read the Docs ]</a>
+    </div>
+    <div class="hero-status">
+      <span class="dot-online" style="font-size:8px">●</span>
+      <span class="tnum"><span data-bind="nodeCount">—</span> nodes online</span>
+      <span class="mid">·</span>
+      <span><span data-bind="assemblyCount">—</span> genomes available</span>
+    </div>
+  </div>
+
+  <!-- Terminal mockup -->
+  <div class="hero-term">
+    <div class="term">
+      <div class="term-bar">
+        <span class="t-brand">GENOMEHUB</span>
+        <span class="t-ver">v0.1.5</span>
+        <span class="t-pipe">│</span>
+        <span class="t-uri">genomehub://n1.example.org:7741</span>
+        <span class="grow"></span>
+        <span class="dot-online">●</span>
+        <span class="t-online">ONLINE</span>
+        <span class="t-pipe">│</span>
+        <span class="t-clock tnum" data-bind="clock">00:00:00</span>
+      </div>
+
+      <div class="term-tabs">
+        <div class="tab active">1:Overview</div>
+        <div class="tab">2:Seeding</div>
+        <div class="tab">3:Serving</div>
+        <div class="tab">4:Swarm</div>
+        <div class="tab">5:Activity</div>
+      </div>
+
+      <div class="term-body">
+        <div class="stat-row">
+          <div class="card">
+            <div class="card-label">Uptime</div>
+            <div class="card-val" data-bind="uptimeHero">0d 00h 00m</div>
+            <div class="card-sub">since 2026-05-31</div>
+          </div>
+          <div class="card" style="flex:1.4">
+            <div class="card-label">Segments Held</div>
+            <div class="card-val">48,291 / 50k</div>
+            <div class="card-bar">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░  96.6%</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Upload Rate</div>
+            <div class="card-val" data-bind="rps">132 req/s</div>
+            <div class="card-up"><span data-bind="bw">12.0 MB/s</span> ↑</div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="card green" style="flex:1.6">
+            <div class="card-label">Genomes Seeded</div>
+            <div class="genomes-nums">
+              <span><b style="color:var(--green)">14</b><small>full</small></span>
+              <span><b style="color:var(--amber)">5</b><small>partial</small></span>
+              <span><b style="color:var(--violet)">4</b><small>delta</small></span>
+            </div>
+            <div class="genomes-list">GRCh38.p14 · T2T-CHM13v2.0 · GRCm39.p6 · GRCz11 · TAIR10.1 · ARS-UCD1.3 ···</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Bandwidth · 40s</div>
+            <div class="spark" data-bind="spark"></div>
+            <div class="spark-now"><span data-bind="bw">12.0 MB/s</span> ↑</div>
+          </div>
+        </div>
+
+        <div class="req-box">
+          <div class="card-label">Recent requests</div>
+          <div class="req-list">
+            <div class="req">
+              <span class="t tnum" data-bind="clock">00:00:00</span>
+              <span class="path">/seg/GRCh38.p14/chr3/seg_14219</span>
+              <span class="code ok">200</span>
+            </div>
+            <div class="req">
+              <span class="t tnum" data-bind="prevSec">00:00:00</span>
+              <span class="path">/seg/T2T-CHM13v2.0/chrX/seg_02048</span>
+              <span class="code ok">200</span>
+            </div>
+            <div class="req">
+              <span class="t tnum" data-bind="prev2Sec">00:00:00</span>
+              <span class="path">/index/GRCm39.p6/chr11</span>
+              <span class="code partial">206</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="term-status">
+        <span class="key"><kbd>[Tab]</kbd><span>switch</span></span>
+        <span class="key"><kbd>[/]</kbd><span>search</span></span>
+        <span class="key"><kbd>[q]</kbd><span>quit</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS STRIP ══ -->
+<div class="stats-strip">
+  <div class="stat">
+    <div class="num cyan tnum" data-bind="nodeCount">—</div>
+    <div class="cap">Nodes Online</div>
+  </div>
+  <div class="stat">
+    <div class="num" data-bind="dataAvail">—</div>
+    <div class="cap">Data Available</div>
+  </div>
+  <div class="stat">
+    <div class="num tnum" data-bind="assemblyCount">—</div>
+    <div class="cap">Genomes Available</div>
+  </div>
+  <div class="stat">
+    <div class="num green" data-bind="netStatus">—</div>
+    <div class="cap">Network Status</div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section id="protocol" class="section">
+  <div class="kicker">What GenomeHub Does</div>
+  <h2 class="h2">The network, not the cloud.</h2>
+  <div class="features">
+    <div class="feature">
+      <div class="fnum">01 / Distributed Seeding</div>
+      <h3>Any node can host any assembly.</h3>
+      <p>Coverage grows with the network. No central servers. A genome seeded by one node is available to all — as long as at least one peer holds it.</p>
+      <div class="feature-meta">
+        <div class="row"><span class="k">● Content-defined chunks</span><span class="v">BLAKE3 verified</span></div>
+        <div class="row"><span class="k">● Content-addressed</span><span class="v">dedup guaranteed</span></div>
+        <div class="row"><span class="k">● Delta + segments</span><span class="v">download only diffs</span></div>
+      </div>
+    </div>
+    <div class="feature green">
+      <div class="fnum">02 / Verified Integrity</div>
+      <h3>Every segment cryptographically signed.</h3>
+      <p>Reference assemblies are too critical to trust without verification. Every segment is re-hashed on receipt and the manifest signature is checked against the origin's key. Corruption, tampering, and untrusted relays are refused automatically.</p>
+      <div class="feature-meta">
+        <div class="row"><span class="k">● ed25519 manifest</span><span class="v">origin-signed</span></div>
+        <div class="row"><span class="k">● BLAKE3 segments</span><span class="v">re-hashed on arrival</span></div>
+        <div class="row"><span class="k">● Verified via peers</span><span class="v">trust survives relay</span></div>
+      </div>
+    </div>
+    <div class="feature violet">
+      <div class="fnum">03 / Open & Noncommercial</div>
+      <h3>Source-available. Free for science.</h3>
+      <p>Built for researchers, not profit. Free to use, fork, and run for any noncommercial purpose — academic, government, and nonprofit use included. The reference implementation is a single Go binary with a curl-friendly HTTP API.</p>
+      <div class="feature-meta">
+        <div class="row"><span class="k">● PolyForm NC 1.0</span><span class="v">noncommercial</span></div>
+        <div class="row"><span class="k">● HTTP read API</span><span class="v">curl-friendly</span></div>
+        <div class="row"><span class="k">● Written in Go</span><span class="v">single binary</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="section-band">
+  <div class="inner">
+    <div class="kicker">How It Works</div>
+    <h2 class="h2" style="margin-bottom:56px">Four steps to seeding.</h2>
+    <div class="steps">
+      <div class="step c1">
+        <div class="step-head">
+          <div class="step-badge">01</div>
+          <div class="step-line"></div>
+          <span class="step-arrow">▶</span>
+        </div>
+        <div class="step-title">Import</div>
+        <p>Bring a genome from a local FASTA. The node chunks it into content-defined segments automatically.</p>
+        <div class="step-cmd"><span class="prompt">$</span><span class="cmd"> genomehub import --fasta genome.fa</span></div>
+      </div>
+      <div class="step c2">
+        <div class="step-head">
+          <div class="step-badge">02</div>
+          <div class="step-line"></div>
+          <span class="step-arrow">▶</span>
+        </div>
+        <div class="step-title">Segment</div>
+        <p>Sequence is split into content-defined chunks, each indexed by BLAKE3. The manifest is ed25519-signed and published to the origin.</p>
+        <div class="step-cmd"><span style="color:var(--green)">✓</span><span style="color:var(--faint)"> content-addressed · deduped</span></div>
+      </div>
+      <div class="step c3">
+        <div class="step-head">
+          <div class="step-badge">03</div>
+          <div class="step-line"></div>
+          <span class="step-arrow">▶</span>
+        </div>
+        <div class="step-title">Serve</div>
+        <p>Your node responds to peer requests over HTTP/2. Segments are served directly; the tracker is only consulted for discovery.</p>
+        <div class="step-cmd ellip">GET /segments/{blake3-hash}</div>
+      </div>
+      <div class="step c4">
+        <div class="step-head">
+          <div class="step-badge">04</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-title">Sync</div>
+        <p>The tracker coordinates availability. Nodes discover peers, fetch missing segments, and propagate delta updates automatically.</p>
+        <div class="step-cmd"><span style="color:var(--violet)">↑</span><span style="color:var(--faint)"> delta synced · 3 peers</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ASSEMBLY TICKER ══ -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>GRCh38.p14 · T2T-CHM13v2.0 · GRCm39.p6 · GRCm38.p6 · TAIR10.1 · ARS-UCD1.3 · GRCz11 · WBcel235 · BDGP6.46 · R64-1-1 · GRCr8 · Sscrofa11.1 · EquCab3.0 · ASM294v2 · Zm-B73-REFERENCE-NAM-5.0 · Oryza_sativa_v1.0 · GRCg7b · CanFam6 · felCat9.0 · mOrnAna1.p.v1 · ASM985889v3 · GRCh38-ncbi · GRCh37/hg19 · </span>
+    <span>GRCh38.p14 · T2T-CHM13v2.0 · GRCm39.p6 · GRCm38.p6 · TAIR10.1 · ARS-UCD1.3 · GRCz11 · WBcel235 · BDGP6.46 · R64-1-1 · GRCr8 · Sscrofa11.1 · EquCab3.0 · ASM294v2 · Zm-B73-REFERENCE-NAM-5.0 · Oryza_sativa_v1.0 · GRCg7b · CanFam6 · felCat9.0 · mOrnAna1.p.v1 · ASM985889v3 · GRCh38-ncbi · GRCh37/hg19 · </span>
+  </div>
+</div>
+
+<!-- ══ GENOMES ══ -->
+<style>
+  .genomes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .genome-card{border:1px solid var(--line,#1b2735);background:var(--panel,#0d131c);border-radius:8px;padding:18px 20px}
+  .genome-card .gc-top{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+  .genome-card .gc-asm{font-weight:700;color:var(--cyan,#3fc7e0);font-size:15px}
+  .genome-card .gc-ver{color:var(--faint,#5c86a0);font-size:11px}
+  .genome-card .gc-org{font-style:italic;color:#cdd6e0;font-size:13px;margin-bottom:10px}
+  .genome-card .gc-meta{display:flex;gap:18px;color:var(--faint,#5c86a0);font-size:11px;margin-bottom:14px}
+  .genome-card .gc-cmd{display:flex;align-items:center;gap:8px;background:#070b11;border:1px solid #16202d;border-radius:6px;padding:8px 10px}
+  .genome-card .gc-cmd code{font-size:11px;color:#9fb2c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+  .genome-card .gc-copy{cursor:pointer;background:none;border:1px solid #2a3a4d;color:var(--green,#1ed183);border-radius:4px;font:inherit;font-size:10px;padding:3px 8px}
+  .genome-card .gc-copy:hover{background:#13202c}
+  .genomes-loading,.genomes-error{color:var(--faint,#5c86a0);font-size:13px}
+  .genomes-error{color:var(--amber,#ef9f1a)}
+</style>
+<section id="genomes" class="section">
+  <div class="kicker">Available Now</div>
+  <h2 class="h2">Genomes on the network.</h2>
+  <p style="color:var(--faint,#5c86a0);max-width:640px;margin-bottom:32px">Live from the registry. Copy a command to download — verified end-to-end against the origin's signature, no account needed.</p>
+  <div id="genomes-list" class="genomes-grid">
+    <div class="genomes-loading">Loading catalog…</div>
+  </div>
+</section>
+
+<!-- ══ NETWORK ══ -->
+<section id="network" class="section">
+  <div class="network-row">
+    <div class="network-info">
+      <div class="kicker">The Network</div>
+      <h2>Peers worldwide.<br>Growing.</h2>
+      <p>Every node strengthens the network. Institutional servers, lab workstations, and personal machines all contribute equally. Geographic distribution keeps latency low and redundancy high.</p>
+      <div class="legend">
+        <div class="item"><span class="d" style="color:var(--green)">●</span><span>Full node — complete assembly index</span></div>
+        <div class="item"><span class="d" style="color:var(--amber)">●</span><span>Partial — subset of assemblies</span></div>
+        <div class="item"><span class="d" style="color:var(--violet)">●</span><span>Relay — routing only, no storage</span></div>
+        <div class="item"><span class="d" style="color:var(--red)">○</span><span>Offline / timed out</span></div>
+      </div>
+      <div class="network-counts">
+        <div><div class="n" style="color:var(--green)" data-bind="swOnline">0</div><div class="cap">Online</div></div>
+        <div><div class="n" style="color:var(--red)" data-bind="swOffline">0</div><div class="cap">Offline</div></div>
+        <div><div class="n" style="color:var(--cyan)" data-bind="swFull">0</div><div class="cap">Full nodes</div></div>
+      </div>
+    </div>
+    <div class="network-graph" id="network-graph"></div>
+  </div>
+</section>
+
+<!-- ══ INSTALL ══ -->
+<section id="install" class="section-band">
+  <div class="install-inner">
+    <div class="kicker">Get Started</div>
+    <h2>Run a node in minutes.</h2>
+    <p>A single binary, no dependencies. Bring your own storage — a few terabytes is enough to seed the most common reference assemblies.</p>
+
+    <div class="term-block">
+      <div class="term-block-head">
+        <span class="lbl">Terminal</span>
+        <span class="grow"></span>
+        <span class="sh">bash</span>
+      </div>
+      <div class="term-block-body">
+        <div class="cmd-group">
+          <div class="c"># Install (macOS / Linux)</div>
+          <div><span class="prompt">$</span><span class="cmd"> curl -fsSL https://raw.githubusercontent.com/luizeduardocarvalho/genomehub/main/install.sh | sh</span></div>
+        </div>
+        <div class="cmd-group divider">
+          <div class="c"># Download a genome (verified)</div>
+          <div style="margin-bottom:10px"><span class="prompt">$</span><span class="cmd"> genomehub download --assembly Phypa_V3 --output ppatens.fa</span></div>
+          <div class="ok-line">✓ manifest Phypa_V3 signature verified</div>
+          <div class="progress-line">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  downloaded · all chromosomes OK</div>
+        </div>
+        <div class="cmd-group">
+          <div class="c"># Become a seeder (laptop: auto public tunnel)</div>
+          <div><span class="prompt">$</span><span class="cmd"> genomehub seed --tunnel</span></div>
+        </div>
+        <div class="node-line">
+          <span class="dot-online">●</span>
+          <span>Seeding · contributing bandwidth to the network</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="install-actions">
+      <a href="#genomes" class="btn btn-primary">[ Browse Genomes ]</a>
+      <a href="https://github.com/luizeduardocarvalho/genomehub/blob/main/docs/users.md" class="btn btn-ghost">[ User Guide ]</a>
+      <a href="https://github.com/luizeduardocarvalho/genomehub" class="gh">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <span class="brand" style="font-size:12px">GENOMEHUB</span>
+  <span class="sep">│</span>
+  <span class="desc">Open Protocol for Genomic Reference Data</span>
+  <div class="grow"></div>
+  <span class="lic">PolyForm Noncommercial 1.0.0 · github.com/luizeduardocarvalho/genomehub</span>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
