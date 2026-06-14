@@ -46,44 +46,64 @@
   }
 
   // ── live: genomes from the registry ──────────────────────────────────
+  const PAGE = 30;
+  let allGenomes = [];
+  let query = '';
+  let limit = PAGE;
+
+  function makeCard(g) {
+    const cmd = dlCmd(g.assembly);
+    const card = document.createElement('div');
+    card.className = 'genome-card';
+    card.innerHTML =
+      `<div class="gc-top"><span class="gc-asm"></span><span class="gc-ver">v${g.version || 1}</span></div>
+       <div class="gc-org"></div>
+       <div class="gc-meta"><span>${(g.segments || 0).toLocaleString()} segments</span><span>${humanBytes(g.bases || 0)}</span><span>${g.kind || 'manifest'}</span></div>
+       <div class="gc-cmd"><code></code><button class="gc-copy">copy</button></div>`;
+    card.querySelector('.gc-asm').textContent = g.assembly;
+    card.querySelector('.gc-org').textContent = g.organism || '';
+    card.querySelector('.gc-cmd code').textContent = cmd;
+    const btn = card.querySelector('.gc-copy');
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(cmd).then(() => {
+        btn.textContent = 'copied';
+        setTimeout(() => { btn.textContent = 'copy'; }, 1200);
+      });
+    });
+    return card;
+  }
+
+  function renderGenomes() {
+    const host = document.getElementById('genomes-list');
+    const more = document.getElementById('genomes-more');
+    const countEl = document.getElementById('genomes-count');
+    if (!host) return;
+    const q = query.trim().toLowerCase();
+    const matches = allGenomes.filter(g =>
+      !q || (g.assembly + ' ' + (g.organism || '')).toLowerCase().includes(q));
+    if (countEl) countEl.textContent = q ? `${matches.length} of ${allGenomes.length}` : `${allGenomes.length} genomes`;
+    if (more) more.innerHTML = '';
+    if (!allGenomes.length) { host.innerHTML = '<div class="genomes-loading">No genomes published yet.</div>'; return; }
+    if (!matches.length) { host.innerHTML = '<div class="genomes-loading">No matches.</div>'; return; }
+    host.innerHTML = '';
+    matches.slice(0, limit).forEach(g => host.appendChild(makeCard(g)));
+    if (matches.length > limit && more) {
+      more.innerHTML = '<button>Show more</button>';
+      more.querySelector('button').onclick = () => { limit += PAGE; renderGenomes(); };
+    }
+  }
+
   async function loadGenomes() {
     const host = document.getElementById('genomes-list');
     try {
       const res = await fetch(REGISTRY_URL, { cache: 'no-store' });
       if (!res.ok) throw new Error('status ' + res.status);
-      const list = await res.json();
-
-      set('assemblyCount', list.length);
-      set('dataAvail', humanBytes(list.reduce((s, g) => s + (g.bases || 0), 0)));
+      allGenomes = await res.json();
+      allGenomes.sort((a, b) => (a.organism || a.assembly).localeCompare(b.organism || b.assembly));
+      set('assemblyCount', allGenomes.length);
+      set('dataAvail', humanBytes(allGenomes.reduce((s, g) => s + (g.bases || 0), 0)));
       set('netStatus', 'online');
-
-      if (!host) return;
-      if (!list.length) {
-        host.innerHTML = '<div class="genomes-loading">No genomes published yet.</div>';
-        return;
-      }
-      host.innerHTML = '';
-      list.forEach(g => {
-        const cmd = dlCmd(g.assembly);
-        const card = document.createElement('div');
-        card.className = 'genome-card';
-        card.innerHTML =
-          `<div class="gc-top"><span class="gc-asm"></span><span class="gc-ver">v${g.version || 1}</span></div>
-           <div class="gc-org"></div>
-           <div class="gc-meta"><span>${(g.segments || 0).toLocaleString()} segments</span><span>${humanBytes(g.bases || 0)}</span><span>${g.kind || 'manifest'}</span></div>
-           <div class="gc-cmd"><code></code><button class="gc-copy">copy</button></div>`;
-        card.querySelector('.gc-asm').textContent = g.assembly;
-        card.querySelector('.gc-org').textContent = g.organism || '';
-        card.querySelector('.gc-cmd code').textContent = cmd;
-        const btn = card.querySelector('.gc-copy');
-        btn.addEventListener('click', () => {
-          navigator.clipboard.writeText(cmd).then(() => {
-            btn.textContent = 'copied';
-            setTimeout(() => { btn.textContent = 'copy'; }, 1200);
-          });
-        });
-        host.appendChild(card);
-      });
+      renderGenomes();
     } catch (e) {
       set('netStatus', 'offline');
       if (host) {
@@ -91,6 +111,11 @@
           `<div class="genomes-error">Couldn't reach the registry. The origin may be offline — try again shortly.</div>`;
       }
     }
+  }
+
+  const searchEl = document.getElementById('genomes-search');
+  if (searchEl) {
+    searchEl.addEventListener('input', () => { query = searchEl.value; limit = PAGE; renderGenomes(); });
   }
 
   // ── live: node count from the tracker ────────────────────────────────

@@ -272,14 +272,26 @@
   .genome-card .gc-copy:hover{background:#13202c}
   .genomes-loading,.genomes-error{color:var(--faint,#5c86a0);font-size:13px}
   .genomes-error{color:var(--amber,#ef9f1a)}
+  .genomes-bar{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .genomes-search{flex:1;min-width:240px;background:#070b11;border:1px solid #1b2735;border-radius:6px;color:#cdd6e0;font:inherit;font-size:13px;padding:9px 12px}
+  .genomes-search:focus{outline:none;border-color:var(--cyan,#3fc7e0)}
+  .genomes-count{color:var(--faint,#5c86a0);font-size:12px;white-space:nowrap}
+  .genomes-more{margin-top:18px;text-align:center}
+  .genomes-more button{cursor:pointer;background:none;border:1px solid #2a3a4d;color:var(--cyan,#3fc7e0);border-radius:6px;font:inherit;font-size:12px;padding:8px 18px}
+  .genomes-more button:hover{background:#13202c}
 </style>
 <section id="genomes" class="section">
   <div class="kicker">Available Now</div>
   <h2 class="h2">Genomes on the network.</h2>
-  <p style="color:var(--faint,#5c86a0);max-width:640px;margin-bottom:32px">Live from the registry. Copy a command to download — verified end-to-end against the origin's signature, no account needed.</p>
+  <p style="color:var(--faint,#5c86a0);max-width:640px;margin-bottom:24px">Live from the registry. Copy a command to download — verified end-to-end against the origin's signature, no account needed.</p>
+  <div class="genomes-bar">
+    <input id="genomes-search" class="genomes-search" type="search" placeholder="Search by assembly or organism…" autocomplete="off">
+    <span class="genomes-count" id="genomes-count"></span>
+  </div>
   <div id="genomes-list" class="genomes-grid">
     <div class="genomes-loading">Loading catalog…</div>
   </div>
+  <div class="genomes-more" id="genomes-more"></div>
 </section>
 
 <!-- ══ NETWORK ══ -->
