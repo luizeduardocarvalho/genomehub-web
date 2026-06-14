@@ -259,18 +259,19 @@
 
 <!-- ══ GENOMES ══ -->
 <style>
-  .genomes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  @media(max-width:900px){.genomes-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:600px){.genomes-grid{grid-template-columns:1fr}}
+  .genomes-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  @media(max-width:900px){.genomes-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:600px){.genomes-grid{grid-template-columns:minmax(0,1fr)}}
+  .genome-card{min-width:0}
   .genome-card{border:1px solid var(--line,#1b2735);background:var(--panel,#0d131c);border-radius:8px;padding:18px 20px}
   .genome-card .gc-top{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
   .genome-card .gc-asm{font-weight:700;color:var(--cyan,#3fc7e0);font-size:15px}
   .genome-card .gc-ver{color:var(--faint,#5c86a0);font-size:11px}
   .genome-card .gc-org{font-style:italic;color:#cdd6e0;font-size:13px;margin-bottom:10px}
   .genome-card .gc-meta{display:flex;gap:18px;color:var(--faint,#5c86a0);font-size:11px;margin-bottom:14px}
-  .genome-card .gc-cmd{display:flex;align-items:center;gap:8px;background:#070b11;border:1px solid #16202d;border-radius:6px;padding:8px 10px}
-  .genome-card .gc-cmd code{font-size:11px;color:#9fb2c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-  .genome-card .gc-copy{cursor:pointer;background:none;border:1px solid #2a3a4d;color:var(--green,#1ed183);border-radius:4px;font:inherit;font-size:10px;padding:3px 8px}
+  .genome-card .gc-cmd{display:flex;align-items:center;gap:8px;min-width:0;background:#070b11;border:1px solid #16202d;border-radius:6px;padding:8px 10px}
+  .genome-card .gc-cmd code{font-size:11px;color:#9fb2c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+  .genome-card .gc-copy{cursor:pointer;flex:none;background:none;border:1px solid #2a3a4d;color:var(--green,#1ed183);border-radius:4px;font:inherit;font-size:10px;padding:3px 8px}
   .genome-card .gc-copy:hover{background:#13202c}
   .genomes-loading,.genomes-error{color:var(--faint,#5c86a0);font-size:13px}
   .genomes-error{color:var(--amber,#ef9f1a)}
