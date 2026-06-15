@@ -3,12 +3,12 @@
   'use strict';
 
   // ── network endpoints ────────────────────────────────────────────────
-  // To read the catalog from an R2 mirror instead of the live origin, set
-  // REGISTRY_URL to the mirror's registry.json (e.g. https://pub-XXXX.r2.dev/registry.json).
-  const ORIGIN     = 'https://genomehub.duckdns.org:8443';
+  // Content is served from the Cloudflare R2 backbone (the origin node is retired);
+  // the box keeps only the P2P tracker on :9000.
+  const ORIGIN     = 'https://pub-0d606518eb99438ea971b92f0721f593.r2.dev';
   const TRACKER    = 'https://genomehub.duckdns.org:9000';
   const VERIFY_KEY = 'f6208cf8aceecaab4bda26f254e714f646e22b5a3209070f08701f756df31d29';
-  const REGISTRY_URL = ORIGIN + '/registry';
+  const REGISTRY_URL = ORIGIN + '/registry.json';
   const NODES_URL    = TRACKER + '/nodes';
 
   // ── bind helpers ─────────────────────────────────────────────────────
