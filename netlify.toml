@@ -1,6 +1,14 @@
 [build]
   publish = "."
 
+# Proxy R2 through Netlify so browser fetches are same-origin (r2.dev sends no
+# CORS headers and its managed subdomain can't take a CORS policy).
+[[redirects]]
+  from = "/r2/*"
+  to = "https://pub-0d606518eb99438ea971b92f0721f593.r2.dev/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -8,7 +8,8 @@
   const ORIGIN     = 'https://pub-0d606518eb99438ea971b92f0721f593.r2.dev';
   const TRACKER    = 'https://genomehub.duckdns.org:9000';
   const VERIFY_KEY = 'f6208cf8aceecaab4bda26f254e714f646e22b5a3209070f08701f756df31d29';
-  const REGISTRY_URL = ORIGIN + '/registry.json';
+  // Fetched same-origin via the Netlify /r2 proxy to dodge r2.dev's missing CORS.
+  const REGISTRY_URL = '/r2/registry.json';
   const NODES_URL    = TRACKER + '/nodes';
 
   // ── bind helpers ─────────────────────────────────────────────────────
